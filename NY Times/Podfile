@@ -7,5 +7,5 @@ target 'NY Times' do
 
   # Pods for NY Times
    pod 'Moya'
-
+   pod 'Kingfisher'
 end

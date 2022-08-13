@@ -17,26 +17,32 @@ class DashboardViewController: UIViewController {
         tableView.dataSource = self
         let nib = UINib(nibName: "NewsTableViewCell", bundle: nil)
         tableView.register(nib, forCellReuseIdentifier: "NewsTableViewCell")
-        tableView.estimatedRowHeight = 85
-        tableView.rowHeight = UITableView.automaticDimension
         viewModel.configure()
-        viewModel.dashboardDataModel?.bind({ model in
-           print(model)
+        viewModel.dashboardDataModels?.bind({ [weak self] model in
+            DispatchQueue.main.async {
+                self?.tableView.reloadData()
+            }
         })
     }
 }
 
 extension DashboardViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        10
+        viewModel.dashboardDataModels?.value?.count ?? 0
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "NewsTableViewCell", for: indexPath)
-        guard let newsCell = cell as? NewsTableViewCell else {
+        guard let newsCell = cell as? NewsTableViewCell,
+        let model = viewModel.dashboardDataModels?.value else {
             return cell
         }
+        newsCell.configure(imageName: model[indexPath.row].smallImageURL ?? "", title: model[indexPath.row].title, publishedDate: model[indexPath.row].publishedDate, section: model[indexPath.row].section)
         return newsCell
+    }
+
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        viewModel.didSelect(row: indexPath.row)
     }
 }
 
