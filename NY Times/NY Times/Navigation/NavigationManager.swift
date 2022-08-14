@@ -5,8 +5,13 @@
 //  Created by Mohamed Zaki on 12/08/2022.
 //
 
-import Foundation
 import UIKit
+
+enum Routes {
+    case initial
+    case Dashboard(model: NewsDataModel)
+    case Details
+}
 
 class NavigationManager {
     private init() {}
@@ -18,6 +23,7 @@ class NavigationManager {
         switch currentFlow {
         case .initial:
             guard let dashboard = factory.makeDashboardViewController() else {return}
+            dashboard.configure(viewModel: DashboardViewModel(network: NetworkRequest()))
             navigation.viewControllers = [dashboard]
         case .Dashboard(let model):
             guard let detailsVC = factory.makeDetailsViewController() else {return}
@@ -28,10 +34,4 @@ class NavigationManager {
             break
         }
     }
-}
-
-enum Routes {
-    case initial
-    case Dashboard(model: DashboardDataModel)
-    case Details
 }

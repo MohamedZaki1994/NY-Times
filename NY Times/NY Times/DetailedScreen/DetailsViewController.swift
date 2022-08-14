@@ -43,11 +43,3 @@ class DetailsViewController: UIViewController {
 
     }
 }
-
-class DetailsViewModel {
-    var dashboardDataModel: Observable<DashboardDataModel>?
-
-    init(model: DashboardDataModel) {
-        dashboardDataModel = Observable(model)
-    }
-}

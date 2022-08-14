@@ -10,7 +10,7 @@ import Foundation
 struct MostPopularModel: Codable {
     let status, copyright: String
     let numResults: Int
-    let results: [Result]
+    let results: [NewsResult]
 
     enum CodingKeys: String, CodingKey {
         case status, copyright
@@ -19,8 +19,8 @@ struct MostPopularModel: Codable {
     }
 }
 
-// MARK: - Result
-struct Result: Codable {
+// MARK: - NewsResult
+struct NewsResult: Codable {
     let uri: String
     let url: String
     let id, assetID: Int
@@ -102,9 +102,7 @@ class JSONNull: Codable, Hashable {
         return true
     }
 
-    public var hashValue: Int {
-        return 0
-    }
+    public func hash(into hasher: inout Hasher) {}
 
     public init() {}
 

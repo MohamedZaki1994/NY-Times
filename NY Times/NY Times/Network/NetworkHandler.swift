@@ -13,6 +13,7 @@ struct RequestConfigurations {
     static let baseURL = "http://api.nytimes.com"
     static let path = "/svc/mostpopular/v2/viewed/7.json"
 }
+
 enum Services {
     case mostPopularNews
 }
